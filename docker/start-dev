@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "✅ Start docker service ..."
+docker-compose -f ./docker-compose.yml up -d --build angle-ace-mysql
