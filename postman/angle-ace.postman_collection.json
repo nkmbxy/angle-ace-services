@@ -1,0 +1,36 @@
+{
+	"info": {
+		"_postman_id": "b7e5a85e-fd3e-4255-b91f-06ce960dde0c",
+		"name": "angle-ace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "10795139"
+	},
+	"item": [
+		{
+			"name": "get-products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products?name=test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "test"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
