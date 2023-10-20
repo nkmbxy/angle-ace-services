@@ -30,13 +30,21 @@ public class ProductService {
             query.add(ProductSpecification.hasNameLike(request.getName()));
         }
 
-        Pageable pageable = PageRequest.of(request.getPage(), request.getPerPage());
+        if (StringUtils.hasText(request.getType())) {
+            query.add(ProductSpecification.hasTypeLike(request.getType()));
+        }
+
+        if (StringUtils.hasText(request.getFactory())) {
+            query.add(ProductSpecification.hasFactoryLike(request.getType()));
+        }
+
+
+
+        Pageable pageable = PageRequest.of(request.getPage(), request.getPerPage()); // ใช้สำหรับการเปลี่ยนหน้าตาราง
 
         logger.info("request: {}", request);
 
         Page<Product> result = productRepository.findAll(Specification.allOf(query), pageable);
-
-        logger.info("count: {}", result.getNumber());
 
         logger.info("result: {}", result.toList());
 

@@ -1,18 +1,25 @@
 {
 	"info": {
-		"_postman_id": "b7e5a85e-fd3e-4255-b91f-06ce960dde0c",
+		"_postman_id": "1d974322-968d-4240-8bab-e11bcc5875cc",
 		"name": "angle-ace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "10795139"
+		"_exporter_id": "30601112"
 	},
 	"item": [
 		{
 			"name": "get-products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "http://localhost:8080/api/products?name=test",
+					"raw": "http://localhost:8080/api/products?type=เสื้่อ&factory=โรงงาน&name=เสื้อ",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,8 +31,16 @@
 					],
 					"query": [
 						{
+							"key": "type",
+							"value": "เสื้่อ"
+						},
+						{
+							"key": "factory",
+							"value": "โรงงาน"
+						},
+						{
 							"key": "name",
-							"value": "test"
+							"value": "เสื้อ"
 						}
 					]
 				}

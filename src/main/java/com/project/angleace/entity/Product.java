@@ -19,6 +19,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String type;
+    private String factory;
     private Integer count;
     @CreationTimestamp
     private Date createdAt;

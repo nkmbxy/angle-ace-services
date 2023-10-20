@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class GetProductRequest {
     private String name;
+    private String type;
+    private String factory;
     private Integer page;
     private Integer perPage;
 }

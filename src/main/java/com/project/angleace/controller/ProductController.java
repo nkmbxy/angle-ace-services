@@ -25,12 +25,16 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<Response<List<Product>>> getProducts(
             @RequestParam(required = false) String name,
-             @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String factory,
+            @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer perPage
     ) {
         GetProductRequest request = new GetProductRequest();
 
         request.setName(name);
+        request.setType(type);
+        request.setFactory(factory);
         request.setPage(page);
         request.setPerPage(perPage);
 
@@ -38,4 +42,6 @@ public class ProductController {
 
         return new Response<List<Product>>("200",product).response();
     }
+
+
 }
