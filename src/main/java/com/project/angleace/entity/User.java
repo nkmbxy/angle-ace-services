@@ -14,15 +14,14 @@ import java.util.Date;
 @Entity
 @Data
 @Accessors(chain = true)
-public class Product {
+
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String type;
-    private String factory;
-    private String pathImage;
-    private Integer count;
+    private String username;
+    private String password;
+    private String jwtToken;
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
