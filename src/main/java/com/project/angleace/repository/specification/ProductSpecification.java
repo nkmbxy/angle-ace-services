@@ -1,16 +1,17 @@
 package com.project.angleace.repository.specification;
 
 import com.project.angleace.entity.Product;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {
     public static Specification<Product> hasNameLike(String name) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("name"), "%" + name + "%");
     }
+
     public static Specification<Product> hasTypeLike(String type) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("type"), "%" + type + "%");
     }
+
     public static Specification<Product> hasManufacturerLike(String manufacturer) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("manufacturer"), "%" + manufacturer + "%");
     }

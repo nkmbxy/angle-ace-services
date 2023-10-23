@@ -3,13 +3,9 @@ package com.project.angleace.controller;
 import com.project.angleace.entity.Product;
 import com.project.angleace.model.request.CreateProductRequest;
 import com.project.angleace.model.request.GetProductRequest;
-
-
-import com.project.angleace.model.request.SignupRequest;
 import com.project.angleace.model.response.Response;
 import com.project.angleace.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +38,7 @@ public class ProductController {
 
         List<Product> product = productService.getProducts(request);
 
-        return new Response<List<Product>>("200",product).response();
+        return new Response<List<Product>>("200", product).response();
     }
 
     //  @GetMapping("/products-customer")
@@ -57,7 +53,7 @@ public class ProductController {
 
         String message = productService.createProduct(createProductRequest);
 
-        return new Response<String>("200",message).response();
+        return new Response<String>("200", message).response();
     }
 
 
