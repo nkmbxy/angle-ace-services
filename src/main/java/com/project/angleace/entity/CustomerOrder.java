@@ -14,17 +14,16 @@ import java.util.Date;
 @Entity
 @Data
 @Accessors(chain = true)
-
-public class User {
+public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String address;
-    private String phone;
+    private Integer product_id;
+    private Integer customer_id;
+    private Integer count;
+    private double price;
+    private double profit;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp

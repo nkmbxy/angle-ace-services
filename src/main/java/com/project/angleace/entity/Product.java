@@ -20,9 +20,14 @@ public class Product {
     private Integer id;
     private String name;
     private String type;
-    private String factory;
+    private String manufacturer;
     private String pathImage;
-    private Integer count;
+    private Integer amount;
+    private String detail;
+    private String size;
+    private double sellPrice;
+    private double cost;
+
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp

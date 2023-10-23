@@ -21,7 +21,7 @@ public class UserService {
 
 
         User user = new User()
-                .setUsername(request.getUsername())
+                .setEmail(request.getUsername())
                 .setPassword(request.getPassword());
 
         logger.info("request: {}", request);
