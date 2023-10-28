@@ -18,32 +18,61 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/products?type=เสื้่อ&factory=โรงงาน&name=เสื้อ",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"products"
-					],
-					"query": [
-						{
-							"key": "type",
-							"value": "เสื้่อ"
-						},
-						{
-							"key": "factory",
-							"value": "โรงงาน"
-						},
-						{
-							"key": "name",
-							"value": "เสื้อ"
+				"url": "http://localhost:8080/api/products-admin"
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"test@gmail.com\",\r\n    \"password\" : \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
-				}
+					}
+				},
+				"url": "http://localhost:8080/api/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "create-product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\" : \"002\",\r\n    \"name\" : \"เสื้อคอกลม\",\r\n    \"type\" : \"เสื้อ\",\r\n    \"manufacturer\" : \"BrandB\",\r\n    \"pathImage\" : \"test\",\r\n    \"detail\" : \"รายละเอียดยาวๆ\",\r\n    \"size\" : \"s\",\r\n    \"sellPrice\" : 20 ,\r\n    \"cost\" : 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/product"
+			},
+			"response": []
+		},
+		{
+			"name": "create-product-order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"product_id\" : 1,\r\n        \"amount\" : 10,\r\n        \"name\" : \"เสื้อยืด\",\r\n        \"productOrderDate\" : \"2023-01-10\"\r\n    },\r\n     {\r\n        \"product_id\" : 2,\r\n        \"amount\" : 10,\r\n        \"name\" : \"เสื้อแขนยาว\",\r\n        \"productOrderDate\" : \"2023-01-10\"\r\n    }\r\n    \r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/product-order"
 			},
 			"response": []
 		}
