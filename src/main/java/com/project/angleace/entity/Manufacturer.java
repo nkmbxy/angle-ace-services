@@ -9,20 +9,16 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Data
 @Accessors(chain = true)
-public class ProductOrder {
+public class Manufacturer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer product_id;
-    private Integer amount;
     private String name;
-
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp

@@ -19,4 +19,8 @@ public class Response<T> {
     public ResponseEntity<Response<T>> response() {
         return new ResponseEntity<>(this, HttpStatus.OK);
     }
+
+    public ResponseEntity<Response<T>> responseError() {
+        return new ResponseEntity<>(this, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

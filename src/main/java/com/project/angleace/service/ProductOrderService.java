@@ -41,7 +41,6 @@ public class ProductOrderService {
                 productRepository.save(product.get());
 
                 ProductOrder productOrder = new ProductOrder()
-                        .setProductOrderDate(productRequest.getProductOrderDate())
                         .setProduct_id(productRequest.getProduct_id())
                         .setName(productRequest.getName())
                         .setAmount(productRequest.getAmount());

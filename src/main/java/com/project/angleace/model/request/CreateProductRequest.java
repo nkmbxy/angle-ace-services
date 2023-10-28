@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class CreateProductRequest {
+    private String code;
     private String name;
     private String type;
     private String manufacturer;
