@@ -46,13 +46,54 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"code\" : \"002\",\r\n    \"name\" : \"เสื้อคอกลม\",\r\n    \"type\" : \"เสื้อ\",\r\n    \"manufacturer\" : \"BrandB\",\r\n    \"pathImage\" : \"test\",\r\n    \"detail\" : \"รายละเอียดยาวๆ\",\r\n    \"size\" : \"s\",\r\n    \"sellPrice\" : 20 ,\r\n    \"cost\" : 10\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Asus/Downloads/im.jpg"
+						},
+						{
+							"key": "code",
+							"value": "002",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "เสื้อ",
+							"type": "text"
+						},
+						{
+							"key": "manufacturer",
+							"value": "BrandC",
+							"type": "text"
+						},
+						{
+							"key": "detail",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "size",
+							"value": "s",
+							"type": "text"
+						},
+						{
+							"key": "sellPrice",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "cost",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "เสื้อคอกลม",
+							"type": "text"
 						}
-					}
+					]
 				},
 				"url": "http://localhost:8080/api/product"
 			},
@@ -73,6 +114,15 @@
 					}
 				},
 				"url": "http://localhost:8080/api/product-order"
+			},
+			"response": []
+		},
+		{
+			"name": "get-detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/product/4"
 			},
 			"response": []
 		}
