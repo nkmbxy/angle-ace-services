@@ -1,12 +1,12 @@
 package com.project.angleace.service;
 
-import com.google.cloud.storage.*;
+import com.google.cloud.storage.Bucket;
+import com.google.firebase.cloud.StorageClient;
 import com.project.angleace.entity.Manufacturer;
 import com.project.angleace.entity.Product;
 import com.project.angleace.exception.Exception;
 import com.project.angleace.model.request.CreateProductRequest;
 import com.project.angleace.model.request.GetProductRequest;
-import com.project.angleace.model.response.Response;
 import com.project.angleace.repository.ManufacturerRepository;
 import com.project.angleace.repository.ProductRepository;
 import com.project.angleace.repository.specification.ProductSpecification;
@@ -17,32 +17,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
-
-import com.google.firebase.cloud.StorageClient;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductService {
 
+    private static final String CREATE_SUCCESS = "create product success";
     private final Logger logger = LoggerFactory.getLogger(ProductService.class);
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private ManufacturerRepository manufacturerRepository;
-
-    private static final String CREATE_SUCCESS = "create product success";
-
 
     public List<Product> getProducts(GetProductRequest request) {
         List<Specification<Product>> query = new ArrayList<>();
@@ -77,12 +70,12 @@ public class ProductService {
         Optional<Manufacturer> manufacturerRepo = manufacturerRepository.findByName(request.getManufacturer());
         Optional<Product> productRepo = productRepository.findByCode(request.getCode());
 
-       if(productRepo.isPresent()) {
-           logger.info("exist product in  database");
-           throw new Exception();
-       }
+        if (productRepo.isPresent()) {
+            logger.info("exist product in  database");
+            throw new Exception();
+        }
 
-        if(request.getFile() == null){
+        if (request.getFile() == null) {
             logger.info("request file empty");
             throw new Exception();
         }
@@ -97,28 +90,27 @@ public class ProductService {
                 .setSellPrice(request.getSellPrice())
                 .setSize(request.getSize());
 
-           Bucket bucket = StorageClient.getInstance().bucket();
+        Bucket bucket = StorageClient.getInstance().bucket();
 
-           // Get file information
-           String fileName = request.getFile().getOriginalFilename() + "-" + UUID.randomUUID();
-           String contentType = request.getFile().getContentType();
+        // Get file information
+        String fileName = request.getFile().getOriginalFilename() + "-" + UUID.randomUUID();
+        String contentType = request.getFile().getContentType();
 
-           // Get the file input stream
-           InputStream inputStream = request.getFile().getInputStream();
+        // Get the file input stream
+        InputStream inputStream = request.getFile().getInputStream();
 
-           // Upload the file
-           bucket.create(fileName, inputStream, contentType);
+        // Upload the file
+        bucket.create(fileName, inputStream, contentType);
 
-           String fileUrl = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", bucket.getName(), fileName);
+        String fileUrl = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", bucket.getName(), fileName);
 
-           product.setPathImage(fileUrl);
+        product.setPathImage(fileUrl);
 
-        if(manufacturerRepo.isEmpty()){
+        if (manufacturerRepo.isEmpty()) {
             Manufacturer manufacturer = new Manufacturer().setName(request.getManufacturer());
             manufacturerRepository.save(manufacturer);
             product.setManufacturer(manufacturer);
-        }
-        else{
+        } else {
             product.setManufacturer(manufacturerRepo.get());
         }
 
@@ -131,11 +123,11 @@ public class ProductService {
 
     public Product getProductById(Integer id) {
         Optional<Product> product = productRepository.findById(id);
-        if(product.isEmpty()){
+        if (product.isEmpty()) {
             logger.info("product is empty");
             throw new Exception();
         }
-        return  product.get();
+        return product.get();
     }
 
 
