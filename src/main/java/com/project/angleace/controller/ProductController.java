@@ -6,9 +6,12 @@ import com.project.angleace.model.request.GetProductRequest;
 import com.project.angleace.model.response.Response;
 import com.project.angleace.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -42,19 +45,28 @@ public class ProductController {
     }
 
     //  @GetMapping("/products-customer")
-    //  @GetMapping("/product/:id") //เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone
+    //  @GetMapping("/product/:id") //รายละเอียดสินค้า เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone
     //  @PostMapping("/product/:id") //แก้ไข เอาไอดีไปแก้ไข
     //  @PostMapping("/product") //ลงทะเบียนสินค้าใหม่
 
-    @PostMapping("/product")
+    @PostMapping(value = "/product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Response<String>> createProduct(
-            @RequestBody CreateProductRequest createProductRequest
-    ) {
+            @ModelAttribute CreateProductRequest createProductRequest
+
+    ) throws IOException {
 
         String message = productService.createProduct(createProductRequest);
 
         return new Response<String>("200", message).response();
     }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Response<Product>> getProductById(@PathVariable Integer id) {
+        Product product = productService.getProductById(id);
+        return new Response<Product>("200", product).response();
+    }
+
+
 
 
 }
