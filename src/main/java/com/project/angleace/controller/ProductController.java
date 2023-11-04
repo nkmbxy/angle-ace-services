@@ -43,12 +43,6 @@ public class ProductController {
         return new Response<List<Product>>("200", product).response();
     }
 
-    //  @GetMapping("/products-customer")
-    //  @GetMapping("/product/:id") //รายละเอียดสินค้า เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone รับไอดีเข้ามา เอาไอดีไปหาใน db แล้วโชว์ข้อมูล
-    //  @RequestMapping // to update (edit)
-    //  @PostMapping("/product/:id") //แก้ไข เอาไอดีไปแก้ไข
-    //  @PostMapping("/product") //ลงทะเบียนสินค้าใหม่
-
     @PostMapping(value = "/product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Response<String>> createProduct(
             @ModelAttribute CreateProductRequest createProductRequest
@@ -79,3 +73,4 @@ public class ProductController {
         }
     }
 }
+
