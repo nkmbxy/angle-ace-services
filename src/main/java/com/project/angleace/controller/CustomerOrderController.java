@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/api/customer-order")
+@RequestMapping(path = "/api")
 
 public class CustomerOrderController {
     @Autowired
@@ -22,7 +22,7 @@ public class CustomerOrderController {
     //@GetMapping("/summarize") //สรุปยอด
     @PostMapping("/customer-order") //ลูกค้าซื้อของ
     public ResponseEntity<Response<String>> createCustomerOrder(
-            @RequestBody List<CreateProductOrderRequest> CreateProductOrderRequest
+            @RequestBody CreateProductOrderRequest CreateProductOrderRequest
     ) {
 
         String message = customerOrderService.createCustomerOrder(CreateProductOrderRequest);

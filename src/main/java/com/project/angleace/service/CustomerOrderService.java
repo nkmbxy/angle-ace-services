@@ -26,18 +26,18 @@ public class CustomerOrderService {
     private CustomerOrderRepository customerOrderRepository;
 
 
-    public String createCustomerOrder(List<CreateProductOrderRequest> request) {
+    public String createCustomerOrder(CreateProductOrderRequest request) {
 
-        for (CreateProductOrderRequest productRequest : request) {
+
             List<Specification<Product>> query = new ArrayList<>();
 
-            if (productRequest.getProduct_id() != null) {
-                query.add(ProductSpecification.hasProductID(productRequest.getProduct_id()));
+            if (request.getProduct_id() != null) {
+                query.add(ProductSpecification.hasProductID(request.getProduct_id()));
             }
 
             Optional<Product> product = productRepository.findOne(Specification.<Product>allOf(query));
             if (product.isPresent()) {
-                Integer newAmount = product.get().getAmount() - productRequest.getAmount();
+                Integer newAmount = product.get().getAmount() - request.getAmount();
 
                     // ลดจำนวนสินค้า
                     product.get().setAmount(newAmount);
@@ -46,14 +46,14 @@ public class CustomerOrderService {
                     // create_order
                 Object CreateCustomerOrderRequest;
                 CustomerOrder customerOrder = new CustomerOrder()
-                        .setProduct_id(productRequest.getProduct_id())
-                        .setCount(productRequest.getAmount())
+                        .setProduct_id(request.getProduct_id())
+                        .setCount(request.getAmount())
                         .setProfit(product.get().getSellPrice() - product.get().getCost()); // คำนวณกำไร
                     // save_order
                     customerOrderRepository.save(customerOrder);
 
             }
-        }
+
 
         logger.info("request: {}", request);
         return "Create order success";
