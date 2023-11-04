@@ -44,26 +44,29 @@ public class ProductController {
     }
 
     //  @GetMapping("/products-customer")
-    //  @GetMapping("/product/:id") //รายละเอียดสินค้า เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone
-    //  @PostMapping("/product/:id") //แก้ไข เอาไอดีไปแก้ไข
-    //  @PostMapping("/product") //ลงทะเบียนสินค้าใหม่
+      @GetMapping("/product/:id") //รายละเอียดสินค้า เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone
+      public ResponseEntity<Response<Product>> getProductById(@PathVariable Integer id) {
+          Product product = productService.getProductById(id);
+          if (product != null) {
+              return new Response<Product>("200", product).response();
+          } else {
+              return new Response<Product>("404", null).response();
+          }
+      }
 
-    @PostMapping(value = "/product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response<String>> createProduct(
-            @ModelAttribute CreateProductRequest createProductRequest
+          //  @RequestMapping("/product/:id")
+          //  @PostMapping("/product/:id") //แก้ไข เอาไอดีไปแก้ไข
+          //  @PostMapping("/product") //ลงทะเบียนสินค้าใหม่
+
+          @PostMapping(value = "/product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+          public ResponseEntity<Response<String>> createProduct (
+                  @ModelAttribute CreateProductRequest createProductRequest
 
     ) throws IOException {
 
-        String message = productService.createProduct(createProductRequest);
+              String message = productService.createProduct(createProductRequest);
 
-        return new Response<String>("200", message).response();
-    }
+              return new Response<String>("200", message).response();
+          }
+      }
 
-    @GetMapping("/product/{id}")
-    public ResponseEntity<Response<Product>> getProductById(@PathVariable Integer id) {
-        Product product = productService.getProductById(id);
-        return new Response<Product>("200", product).response();
-    }
-
-
-}

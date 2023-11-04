@@ -12,4 +12,7 @@ public class CreateProductOrderRequest {
     private Integer amount;
     private String name;
     private LocalDate productOrderDate;
+
 }
+
+
