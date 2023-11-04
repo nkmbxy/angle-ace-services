@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1d974322-968d-4240-8bab-e11bcc5875cc",
+		"_postman_id": "99ca2300-138b-469a-bb5f-4cd66aa37169",
 		"name": "angle-ace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "30601112"
@@ -18,7 +18,32 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "http://localhost:8080/api/products-admin"
+				"url": {
+					"raw": "http://localhost:8080/api/products?name=เสื้อคอกลม&manufacturer=BrandC&type=เสื้อ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "เสื้อคอกลม"
+						},
+						{
+							"key": "manufacturer",
+							"value": "BrandC"
+						},
+						{
+							"key": "type",
+							"value": "เสื้อ"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -55,7 +80,7 @@
 						},
 						{
 							"key": "code",
-							"value": "002",
+							"value": "001",
 							"type": "text"
 						},
 						{
@@ -71,21 +96,6 @@
 						{
 							"key": "detail",
 							"value": "test",
-							"type": "text"
-						},
-						{
-							"key": "size",
-							"value": "s",
-							"type": "text"
-						},
-						{
-							"key": "sellPrice",
-							"value": "10",
-							"type": "text"
-						},
-						{
-							"key": "cost",
-							"value": "10",
 							"type": "text"
 						},
 						{
@@ -106,7 +116,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n    {\r\n        \"product_id\" : 1,\r\n        \"amount\" : 10,\r\n        \"name\" : \"เสื้อยืด\",\r\n        \"productOrderDate\" : \"2023-01-10\"\r\n    },\r\n     {\r\n        \"product_id\" : 2,\r\n        \"amount\" : 10,\r\n        \"name\" : \"เสื้อแขนยาว\",\r\n        \"productOrderDate\" : \"2023-01-10\"\r\n    }\r\n    \r\n]",
+					"raw": "[\r\n    {\r\n        \"product_id\": 1,\r\n        \"amountS\": 10,\r\n        \"amountM\": 10,\r\n        \"amountL\": 10,\r\n        \"amountXL\": 10,\r\n        \"name\": \"เสื้อยืด\",\r\n        \"cost\": 10,\r\n        \"sellPrice\": 100\r\n    }\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -122,7 +132,59 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/product/4"
+				"url": "http://localhost:8080/api/product/1"
+			},
+			"response": []
+		},
+		{
+			"name": "create-customer-order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\" : 5,\r\n    \"size\" : \"m\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/customer-order/1"
+			},
+			"response": []
+		},
+		{
+			"name": "edit-product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Asus/Downloads/im.jpg"
+						},
+						{
+							"key": "detail",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "sellPrice",
+							"value": "50",
+							"type": "text"
+						},
+						{
+							"key": "cost",
+							"value": "20",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/product/1"
 			},
 			"response": []
 		}
