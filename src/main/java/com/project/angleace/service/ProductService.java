@@ -6,15 +6,13 @@ import com.project.angleace.entity.Manufacturer;
 import com.project.angleace.entity.Product;
 import com.project.angleace.exception.Exception;
 import com.project.angleace.model.request.CreateProductRequest;
+import com.project.angleace.model.request.EditProductRequest;
 import com.project.angleace.model.request.GetProductRequest;
 import com.project.angleace.repository.ManufacturerRepository;
 import com.project.angleace.repository.ProductRepository;
 import com.project.angleace.repository.specification.ProductSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,8 +23,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +72,7 @@ public class ProductService {
         Optional<Product> productRepo = productRepository.findByCode(request.getCode());
 
         if (productRepo.isPresent()) {
-            logger.info("exist product in  database");
+            logger.info("exist product in database");
             throw new Exception();
         }
 
@@ -89,26 +85,18 @@ public class ProductService {
         product.setCode(request.getCode())
                 .setName(request.getName())
                 .setType(request.getType())
-                .setAmount(0)
-                .setCost(request.getCost())
-                .setDetail(request.getDetail())
-                .setSellPrice(request.getSellPrice())
-                .setSize(request.getSize());
+                .setAmountS(0)
+                .setAmountM(0)
+                .setAmountL(0)
+                .setAmountXL(0)
+                .setDetail(request.getDetail());
 
         Bucket bucket = StorageClient.getInstance().bucket();
-
-        // Get file information
         String fileName = request.getFile().getOriginalFilename() + "-" + UUID.randomUUID();
         String contentType = request.getFile().getContentType();
-
-        // Get the file input stream
         InputStream inputStream = request.getFile().getInputStream();
-
-        // Upload the file
         bucket.create(fileName, inputStream, contentType);
-
         String fileUrl = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", bucket.getName(), fileName);
-
         product.setPathImage(fileUrl);
 
         if (manufacturerRepo.isEmpty()) {
@@ -135,60 +123,34 @@ public class ProductService {
         return product.get();
     }
 
-    public Double calculateSalesSummary(LocalDate startDate, LocalDate endDate) {
-        // Implement logic to calculate sales summaries between startDate and endDate
-        // You can use productRepository or other data sources to retrieve sales data
 
-        // For demonstration purposes, let's assume a simple calculation
-        // This example calculates the total sales for all products within the date range
-        Double totalSales = 0.0;
-        List<Product> products = productRepository.findAll(); // Replace with your actual data retrieval logic
+    public String editProductById(Integer id, EditProductRequest request) throws IOException {
+        Optional<Product> productRepo = productRepository.findById(id);
+        if (productRepo.isPresent()) {
 
-        for (Product product : products) {
-            LocalDate saleDate = LocalDate.from(product.getSaleDate()); // Assuming saleDate is of type LocalDate
-            if (saleDate != null) {
-                if (saleDate.isAfter(startDate) && saleDate.isBefore(endDate)) {
-                    totalSales += product.getSellPrice();
-                }
-            }
+            Bucket bucket = StorageClient.getInstance().bucket();
+            String fileName = request.getFile().getOriginalFilename() + "-" + UUID.randomUUID();
+            String contentType = request.getFile().getContentType();
+            InputStream inputStream = request.getFile().getInputStream();
+            bucket.create(fileName, inputStream, contentType);
+            String fileUrl = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", bucket.getName(), fileName);
+
+            productRepo.get()
+                    .setSellPrice(request.getSellPrice())
+                    .setCost(request.getCost())
+                    .setDetail(request.getDetail())
+                    .setPathImage(fileUrl);
+
+            productRepository.save(productRepo.get());
         }
 
-        return totalSales;
-    }
-
-    public Product editProductById(Integer id, CreateProductRequest editRequest) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-
-        if (optionalProduct.isPresent()) {
-            Product existingProduct = optionalProduct.get();
-            copyNonNullProperties(editRequest, existingProduct);
-
-            // Save the updated product
-            productRepository.save(existingProduct);
-
-            return existingProduct;
-        } else {
-            // Product with the given ID was not found
-            return null;
+        if (productRepo.isEmpty()) {
+            logger.info("cannot find product in database");
+            throw new Exception();
         }
+        logger.info("request: {}", request);
+        return "edit product success";
     }
 
-    private void copyNonNullProperties(Object source, Object target) {
-        BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
-    }
-
-    private String[] getNullPropertyNames(Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-        List<String> emptyNames = new ArrayList<>();
-        for (java.beans.PropertyDescriptor pd : pds) {
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
-        }
-
-        String[] result = new String[emptyNames.size()];
-        return emptyNames.toArray(result);
-    }
 }
 

@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class CreateCustomerOrderRequest {
-    private Integer product_id;
     private Integer amount;
+    private String size;
 }
 

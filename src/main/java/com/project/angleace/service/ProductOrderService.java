@@ -1,9 +1,8 @@
 package com.project.angleace.service;
 
 import com.project.angleace.entity.Product;
-import com.project.angleace.entity.ProductOrder;
+import com.project.angleace.exception.Exception;
 import com.project.angleace.model.request.CreateProductOrderRequest;
-import com.project.angleace.repository.ProductOrderRepository;
 import com.project.angleace.repository.ProductRepository;
 import com.project.angleace.repository.specification.ProductSpecification;
 import org.slf4j.Logger;
@@ -22,9 +21,6 @@ public class ProductOrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private ProductOrderRepository productOrderRepository;
-
     public String createProductOrder(List<CreateProductOrderRequest> request) {
 
         for (CreateProductOrderRequest productRequest : request) {
@@ -36,15 +32,25 @@ public class ProductOrderService {
 
             Optional<Product> product = productRepository.findOne(Specification.<Product>allOf(query));
             if (product.isPresent()) {
-                Integer newAmount = product.get().getAmount() + productRequest.getAmount();
-                product.get().setAmount(newAmount);
-                productRepository.save(product.get());
+                Integer newAmountS = product.get().getAmountS() + productRequest.getAmountS();
+                Integer newAmountM = product.get().getAmountM() + productRequest.getAmountM();
+                Integer newAmountL = product.get().getAmountL() + productRequest.getAmountL();
+                Integer newAmountXL = product.get().getAmountXL() + productRequest.getAmountXL();
 
-                ProductOrder productOrder = new ProductOrder()
-                        .setProduct_id(productRequest.getProduct_id())
-                        .setName(productRequest.getName())
-                        .setAmount(productRequest.getAmount());
-                productOrderRepository.save(productOrder);
+                product.get()
+                        .setAmountS(newAmountS)
+                        .setAmountM(newAmountM)
+                        .setAmountL(newAmountL)
+                        .setAmountXL(newAmountXL)
+                        .setCost(productRequest.getCost())
+                        .setSellPrice(productRequest.getSellPrice());
+
+                productRepository.save(product.get());
+            }
+
+            if (product.isEmpty()) {
+                logger.info("cannot find product in database");
+                throw new Exception();
             }
         }
 

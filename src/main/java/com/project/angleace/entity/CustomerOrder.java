@@ -19,10 +19,9 @@ public class CustomerOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer product_id;
-    private Integer count;
-    private double profit;
-
-
+    private Integer amount;
+    private String size;
+    private Double profit;
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp

@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @Data
 @Accessors(chain = true)
-public class Manufacturer{
+public class Manufacturer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

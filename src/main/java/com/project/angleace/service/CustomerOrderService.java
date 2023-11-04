@@ -2,18 +2,15 @@ package com.project.angleace.service;
 
 import com.project.angleace.entity.CustomerOrder;
 import com.project.angleace.entity.Product;
-import com.project.angleace.model.request.CreateProductOrderRequest;
+import com.project.angleace.exception.Exception;
+import com.project.angleace.model.request.CreateCustomerOrderRequest;
 import com.project.angleace.repository.CustomerOrderRepository;
 import com.project.angleace.repository.ProductRepository;
-import com.project.angleace.repository.specification.ProductSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,37 +22,50 @@ public class CustomerOrderService {
     private CustomerOrderRepository customerOrderRepository;
 
 
-    public String createCustomerOrder(CreateProductOrderRequest request) {
+    public String createCustomerOrder(Integer id, CreateCustomerOrderRequest request) {
 
+        Optional<Product> productRepo = productRepository.findById(id);
+        if (productRepo.isPresent()) {
+            switch (request.getSize()) {
+                case "s": {
+                    Integer newAmount = productRepo.get().getAmountS() - request.getAmount();
+                    productRepo.get().setAmountS(newAmount);
+                    break;
+                }
+                case "m": {
+                    Integer newAmount = productRepo.get().getAmountM() - request.getAmount();
+                    productRepo.get().setAmountM(newAmount);
+                    break;
+                }
+                case "l": {
+                    Integer newAmount = productRepo.get().getAmountL() - request.getAmount();
+                    productRepo.get().setAmountL(newAmount);
+                    break;
+                }
+                case "xl": {
+                    Integer newAmount = productRepo.get().getAmountXL() - request.getAmount();
+                    productRepo.get().setAmountXL(newAmount);
+                    break;
+                }
+            }
+            productRepository.save(productRepo.get());
 
-        List<Specification<Product>> query = new ArrayList<>();
-
-        if (request.getProduct_id() != null) {
-            query.add(ProductSpecification.hasProductID(request.getProduct_id()));
-        }
-
-        Optional<Product> product = productRepository.findOne(Specification.<Product>allOf(query));
-        if (product.isPresent()) {
-            Integer newAmount = product.get().getAmount() - request.getAmount();
-
-            // ลดจำนวนสินค้า
-            product.get().setAmount(newAmount);
-            productRepository.save(product.get());
-
-            // create_order
-            Object CreateCustomerOrderRequest;
             CustomerOrder customerOrder = new CustomerOrder()
-                    .setProduct_id(request.getProduct_id())
-                    .setCount(request.getAmount())
-                    .setProfit(product.get().getSellPrice() - product.get().getCost()); // คำนวณกำไร
-            // save_order
-            customerOrderRepository.save(customerOrder);
+                    .setProduct_id(id)
+                    .setSize(request.getSize())
+                    .setAmount(request.getAmount())
+                    .setProfit(productRepo.get().getSellPrice() - productRepo.get().getCost());
 
+            customerOrderRepository.save(customerOrder);
         }
 
+        if (productRepo.isEmpty()) {
+            logger.info("cannot find product in database");
+            throw new Exception();
+        }
 
         logger.info("request: {}", request);
-        return "Create order success";
+        return "create customer order success";
     }
 
 }

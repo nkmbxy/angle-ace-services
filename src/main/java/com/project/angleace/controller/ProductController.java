@@ -2,6 +2,7 @@ package com.project.angleace.controller;
 
 import com.project.angleace.entity.Product;
 import com.project.angleace.model.request.CreateProductRequest;
+import com.project.angleace.model.request.EditProductRequest;
 import com.project.angleace.model.request.GetProductRequest;
 import com.project.angleace.model.response.Response;
 import com.project.angleace.service.ProductService;
@@ -22,7 +23,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products-admin")
+    @GetMapping("/products")
     public ResponseEntity<Response<List<Product>>> getProducts(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String type,
@@ -60,17 +61,13 @@ public class ProductController {
         return new Response<Product>("200", product).response();
     }
 
-    @PostMapping("/product/{id}")
-    public ResponseEntity<Response<Product>> editProductById(
+    @PostMapping(value = "product/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Response<String>> editProductById(
             @PathVariable Integer id,
-            @RequestBody CreateProductRequest editRequest) {
-        Product editedProduct = productService.editProductById(id, editRequest);
+            @ModelAttribute EditProductRequest editProductRequest) throws IOException {
+        String editedProduct = productService.editProductById(id, editProductRequest);
+        return new Response<String>("200", editedProduct).response();
 
-        if (editedProduct != null) {
-            return new Response<Product>("200", editedProduct).response();
-        } else {
-            return new Response<Product>("404", null).response();
-        }
     }
 }
 
