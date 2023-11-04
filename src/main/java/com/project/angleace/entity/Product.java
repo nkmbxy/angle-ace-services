@@ -7,6 +7,8 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 @Entity
@@ -35,4 +37,17 @@ public class Product {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
+
+    private boolean saleDate; // Declare the saleDate variable
+
+// Other code in your service class
+
+    public Instant getSaleDate() {
+        if (saleDate) {
+            // Provide a valid Instant object or return null if saleDate is true
+            // Example: Return the current timestamp as an Instant
+            return Instant.now();
+        }
+        return null; // Return null if saleDate is false
+    }
 }

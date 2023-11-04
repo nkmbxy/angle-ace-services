@@ -44,7 +44,8 @@ public class ProductController {
     }
 
     //  @GetMapping("/products-customer")
-    //  @GetMapping("/product/:id") //รายละเอียดสินค้า เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone
+    //  @GetMapping("/product/:id") //รายละเอียดสินค้า เอาไปซีเล็ก แวไอดี ก่อน ต้องเป็นfindone รับไอดีเข้ามา เอาไอดีไปหาใน db แล้วโชว์ข้อมูล
+    //  @RequestMapping // to update (edit)
     //  @PostMapping("/product/:id") //แก้ไข เอาไอดีไปแก้ไข
     //  @PostMapping("/product") //ลงทะเบียนสินค้าใหม่
 
@@ -65,5 +66,16 @@ public class ProductController {
         return new Response<Product>("200", product).response();
     }
 
+    @PostMapping("/product/{id}")
+    public ResponseEntity<Response<Product>> editProductById(
+            @PathVariable Integer id,
+            @RequestBody CreateProductRequest editRequest) {
+        Product editedProduct = productService.editProductById(id, editRequest);
 
+        if (editedProduct != null) {
+            return new Response<Product>("200", editedProduct).response();
+        } else {
+            return new Response<Product>("404", null).response();
+        }
+    }
 }
