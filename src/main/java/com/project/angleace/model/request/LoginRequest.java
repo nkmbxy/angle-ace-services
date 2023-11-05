@@ -5,11 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class SignupRequest {
+public class LoginRequest {
     private String email;
     private String password;
-    private String firstname;
-    private String lastname;
-    private String phone;
-    private String address;
 }
