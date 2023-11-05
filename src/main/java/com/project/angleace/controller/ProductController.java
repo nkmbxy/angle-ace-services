@@ -28,6 +28,8 @@ public class ProductController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String manufacturer,
+            @RequestParam(required = false) Double startPrice,
+            @RequestParam(required = false) Double endPrice,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer perPage
     ) {
@@ -36,6 +38,8 @@ public class ProductController {
         request.setName(name);
         request.setType(type);
         request.setManufacturer(manufacturer);
+        request.setStartPrice(startPrice);
+        request.setEndPrice(endPrice);
         request.setPage(page);
         request.setPerPage(perPage);
 
@@ -70,4 +74,6 @@ public class ProductController {
 
     }
 }
+
+
 

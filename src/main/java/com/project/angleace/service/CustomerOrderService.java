@@ -4,13 +4,23 @@ import com.project.angleace.entity.CustomerOrder;
 import com.project.angleace.entity.Product;
 import com.project.angleace.exception.Exception;
 import com.project.angleace.model.request.CreateCustomerOrderRequest;
+import com.project.angleace.model.request.GetSummaryProductRequest;
+import com.project.angleace.model.response.SummaryModel;
 import com.project.angleace.repository.CustomerOrderRepository;
 import com.project.angleace.repository.ProductRepository;
+import com.project.angleace.repository.specification.CustomerOrderSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +30,6 @@ public class CustomerOrderService {
     private ProductRepository productRepository;
     @Autowired
     private CustomerOrderRepository customerOrderRepository;
-
 
     public String createCustomerOrder(Integer id, CreateCustomerOrderRequest request) {
 
@@ -67,5 +76,27 @@ public class CustomerOrderService {
         logger.info("request: {}", request);
         return "create customer order success";
     }
+
+    public List<SummaryModel> getProfitSummary(GetSummaryProductRequest request) {
+        Date startDateConverted = null;
+        Date endDateConverted = null;
+        ZoneId zoneId = ZoneId.of("Asia/Bangkok");
+        if (request.getStartDate() != null) {
+            startDateConverted = Date.from(request.getStartDate().atStartOfDay(zoneId).toInstant());
+        }
+        if (request.getEndDate() != null) {
+            endDateConverted = Date.from(request.getEndDate().atStartOfDay(zoneId).toInstant());
+        }
+        logger.info(    "startDate {}",startDateConverted);
+        Pageable pageable = PageRequest.of(request.getPage(), request.getPerPage()); // ใช้สำหรับการเปลี่ยนหน้าตาราง
+
+        List<SummaryModel> result = customerOrderRepository.findProfitSummary(startDateConverted, endDateConverted);
+        logger.info("request: {}", request);
+
+        logger.info("result: {}", result);
+
+        return result;
+    }
+
 
 }

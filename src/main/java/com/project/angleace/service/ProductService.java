@@ -31,7 +31,6 @@ import java.util.UUID;
 @Service
 public class ProductService {
 
-    private static final String CREATE_SUCCESS = "create product success";
     private final Logger logger = LoggerFactory.getLogger(ProductService.class);
     @Autowired
     private ProductRepository productRepository;
@@ -51,6 +50,10 @@ public class ProductService {
 
         if (StringUtils.hasText(request.getManufacturer())) {
             query.add(ProductSpecification.hasManufacturerLike(request.getManufacturer()));
+        }
+
+        if (request.getStartPrice() != null && request.getEndPrice() != null) {
+            query.add(ProductSpecification.hasBetweenStartPriceAndEndPrice(request.getStartPrice(), request.getEndPrice()));
         }
 
 

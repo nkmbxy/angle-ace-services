@@ -10,6 +10,8 @@ public class GetProductRequest {
     private String name;
     private String type;
     private String manufacturer;
+    private Double startPrice;
+    private Double endPrice;
     private Integer page;
     private Integer perPage;
 }

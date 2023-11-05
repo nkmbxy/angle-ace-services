@@ -25,4 +25,9 @@ public class ProductSpecification {
     public static Specification<Product> hasProductID(Integer productID) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), productID);
     }
+
+    public static Specification<Product> hasBetweenStartPriceAndEndPrice(Double startPrice, Double endPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("sellPrice"), startPrice, endPrice);
+    }
+
 }
