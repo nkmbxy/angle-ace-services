@@ -1,6 +1,5 @@
 package com.project.angleace.controller;
 
-import com.project.angleace.entity.CustomerOrder;
 import com.project.angleace.model.request.CreateCustomerOrderRequest;
 import com.project.angleace.model.request.GetSummaryProductRequest;
 import com.project.angleace.model.response.Response;

@@ -31,30 +31,31 @@ public class JwtAuthorizationFilterConfig extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
         this.mapper = mapper;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Map<String, Object> errorDetails = new HashMap<>();
 
         try {
             String accessToken = jwtUtil.resolveToken(request);
-            if (accessToken == null ) {
+            if (accessToken == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
-            System.out.println("token : "+accessToken);
+            System.out.println("token : " + accessToken);
             Claims claims = jwtUtil.resolveClaims(request);
 
-            if(claims != null & jwtUtil.validateClaims(claims)){
+            if (claims != null & jwtUtil.validateClaims(claims)) {
                 String email = claims.getSubject();
-                System.out.println("email : "+email);
+                System.out.println("email : " + email);
                 Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(email,"",new ArrayList<>());
+                        new UsernamePasswordAuthenticationToken(email, "", new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-        }catch (Exception e) {
-            errorDetails.put("status",  Integer.toString(HttpStatus.FORBIDDEN.value()));
-            errorDetails.put("message",  e.getMessage());
+        } catch (Exception e) {
+            errorDetails.put("status", Integer.toString(HttpStatus.FORBIDDEN.value()));
+            errorDetails.put("message", e.getMessage());
             if (!response.isCommitted()) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);

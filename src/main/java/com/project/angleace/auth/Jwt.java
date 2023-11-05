@@ -1,10 +1,11 @@
 package com.project.angleace.auth;
 
 import com.project.angleace.entity.User;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -12,14 +13,12 @@ import java.util.concurrent.TimeUnit;
 public class Jwt {
 
     private final String secret_key = "angle-ace-secret-key";
-    private long accessTokenValidity = 60*60*1000;
-
-    private JwtParser jwtParser;
-
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
+    private long accessTokenValidity = 60 * 60 * 1000;
+    private JwtParser jwtParser;
 
-    public Jwt(){
+    public Jwt() {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 

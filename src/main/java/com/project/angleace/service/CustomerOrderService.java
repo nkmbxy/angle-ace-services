@@ -8,17 +8,14 @@ import com.project.angleace.model.request.GetSummaryProductRequest;
 import com.project.angleace.model.response.SummaryModel;
 import com.project.angleace.repository.CustomerOrderRepository;
 import com.project.angleace.repository.ProductRepository;
-import com.project.angleace.repository.specification.CustomerOrderSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -87,7 +84,7 @@ public class CustomerOrderService {
         if (request.getEndDate() != null) {
             endDateConverted = Date.from(request.getEndDate().atStartOfDay(zoneId).toInstant());
         }
-        logger.info(    "startDate {}",startDateConverted);
+        logger.info("startDate {}", startDateConverted);
         Pageable pageable = PageRequest.of(request.getPage(), request.getPerPage()); // ใช้สำหรับการเปลี่ยนหน้าตาราง
 
         List<SummaryModel> result = customerOrderRepository.findProfitSummary(startDateConverted, endDateConverted);
