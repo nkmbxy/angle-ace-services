@@ -1,11 +1,50 @@
 {
 	"info": {
-		"_postman_id": "99ca2300-138b-469a-bb5f-4cd66aa37169",
+		"_postman_id": "7fe5ceed-9e03-45f1-bd3a-f07f511441ae",
 		"name": "angle-ace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "30601112"
+		"_exporter_id": "10795139"
 	},
 	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"test@gmail.com\",\r\n    \"password\": \"1234\",\r\n    \"address\":\"test\",\r\n    \"firstname\" : \"test\",\r\n    \"lastname\" : \"test\",\r\n    \"phone\" : \"0812345687\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"test@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/login"
+			},
+			"response": []
+		},
 		{
 			"name": "get-products",
 			"protocolProfileBehavior": {
