@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7fe5ceed-9e03-45f1-bd3a-f07f511441ae",
+		"_postman_id": "524939dc-2fee-4b56-9149-892a4c4c9393",
 		"name": "angle-ace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "10795139"
+		"_exporter_id": "30601112"
 	},
 	"item": [
 		{
@@ -87,24 +87,6 @@
 			"response": []
 		},
 		{
-			"name": "signup",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"test@gmail.com\",\r\n    \"password\" : \"test\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8080/api/signup"
-			},
-			"response": []
-		},
-		{
 			"name": "create-product",
 			"request": {
 				"method": "POST",
@@ -155,7 +137,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n    {\r\n        \"product_id\": 1,\r\n        \"amountS\": 10,\r\n        \"amountM\": 10,\r\n        \"amountL\": 10,\r\n        \"amountXL\": 10,\r\n        \"name\": \"เสื้อยืด\",\r\n        \"cost\": 10,\r\n        \"sellPrice\": 100\r\n    }\r\n]",
+					"raw": "[\r\n    {\r\n        \"product_id\": 1,\r\n        \"amountS\": 10,\r\n        \"amountM\": 10,\r\n        \"amountL\": 10,\r\n        \"amountXL\": 10,\r\n        \"cost\": 10,\r\n        \"sellPrice\": 100\r\n    }\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
