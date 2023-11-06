@@ -15,8 +15,8 @@ public class Jwt {
     private final String secret_key = "angle-ace-secret-key";
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
-    private long accessTokenValidity = 60 * 60 * 1000;
-    private JwtParser jwtParser;
+    private final long accessTokenValidity = 60 * 60 * 1000;
+    private final JwtParser jwtParser;
 
     public Jwt() {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);

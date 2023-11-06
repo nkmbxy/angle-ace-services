@@ -30,7 +30,7 @@ public class ProductOrderService {
                 query.add(ProductSpecification.hasProductID(productRequest.getProduct_id()));
             }
 
-            Optional<Product> product = productRepository.findOne(Specification.<Product>allOf(query));
+            Optional<Product> product = productRepository.findOne(Specification.allOf(query));
             if (product.isPresent()) {
                 Integer newAmountS = product.get().getAmountS() + productRequest.getAmountS();
                 Integer newAmountM = product.get().getAmountM() + productRequest.getAmountM();

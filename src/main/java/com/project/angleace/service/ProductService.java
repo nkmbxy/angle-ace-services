@@ -14,9 +14,6 @@ import com.project.angleace.repository.specification.ProductSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -57,15 +54,13 @@ public class ProductService {
         }
 
 
-        Pageable pageable = PageRequest.of(request.getPage(), request.getPerPage()); // ใช้สำหรับการเปลี่ยนหน้าตาราง
-
         logger.info("request: {}", request);
 
-        Page<Product> result = productRepository.findAll(Specification.allOf(query), pageable);
+        List<Product> result = productRepository.findAll(Specification.allOf(query));
 
-        logger.info("result: {}", result.toList());
+        logger.info("result: {}", result);
 
-        return result.toList();
+        return result;
     }
 
 

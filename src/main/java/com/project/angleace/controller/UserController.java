@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api")
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private AuthenticationManager authenticationManager;
-    private Jwt jwtUtil;
+    private final AuthenticationManager authenticationManager;
+    private final Jwt jwtUtil;
     @Autowired
     private UserService userService;
 
