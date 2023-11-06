@@ -10,6 +10,4 @@ import java.time.LocalDate;
 public class GetSummaryProductRequest {
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer page;
-    private Integer perPage;
 }

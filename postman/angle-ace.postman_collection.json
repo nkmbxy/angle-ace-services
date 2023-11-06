@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "524939dc-2fee-4b56-9149-892a4c4c9393",
+		"_postman_id": "fda67660-7927-4e1e-8a40-7707bc5fdf3c",
 		"name": "angle-ace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "30601112"
+		"_exporter_id": "10795139"
 	},
 	"item": [
 		{
@@ -97,7 +97,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/C:/Users/Asus/Downloads/im.jpg"
+							"src": "/C:/Users/USER/Pictures/Screenshots/Screenshot 2023-03-22 105931.png"
 						},
 						{
 							"key": "code",
@@ -164,7 +164,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"amount\" : 5,\r\n    \"size\" : \"m\"\r\n}",
+					"raw": "{\r\n    \"amount\" : 3,\r\n    \"size\" : \"s\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -206,6 +206,36 @@
 					]
 				},
 				"url": "http://localhost:8080/api/product/1"
+			},
+			"response": []
+		},
+		{
+			"name": "profit-summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/profit-summary?startDate=2023-11-06&endDate=2023-11-10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"profit-summary"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2023-11-06"
+						},
+						{
+							"key": "endDate",
+							"value": "2023-11-10"
+						}
+					]
+				}
 			},
 			"response": []
 		}

@@ -8,17 +8,22 @@ import com.project.angleace.model.request.GetSummaryProductRequest;
 import com.project.angleace.model.response.SummaryModel;
 import com.project.angleace.repository.CustomerOrderRepository;
 import com.project.angleace.repository.ProductRepository;
+import com.project.angleace.repository.specification.CustomerOrderSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerOrderService {
@@ -75,24 +80,41 @@ public class CustomerOrderService {
     }
 
     public List<SummaryModel> getProfitSummary(GetSummaryProductRequest request) {
-        Date startDateConverted = null;
-        Date endDateConverted = null;
-        ZoneId zoneId = ZoneId.of("Asia/Bangkok");
-        if (request.getStartDate() != null) {
-            startDateConverted = Date.from(request.getStartDate().atStartOfDay(zoneId).toInstant());
-        }
-        if (request.getEndDate() != null) {
-            endDateConverted = Date.from(request.getEndDate().atStartOfDay(zoneId).toInstant());
-        }
-        logger.info("startDate {}", startDateConverted);
-        Pageable pageable = PageRequest.of(request.getPage(), request.getPerPage()); // ใช้สำหรับการเปลี่ยนหน้าตาราง
+        List<Specification<CustomerOrder>> query = new ArrayList<>();
 
-        List<SummaryModel> result = customerOrderRepository.findProfitSummary(startDateConverted, endDateConverted);
-        logger.info("request: {}", request);
+        if (request.getStartDate() != null && request.getEndDate() == null) {
+            query.add(CustomerOrderSpecification.hasStartDate(request.getStartDate()));
+        }
+        if (request.getEndDate() != null && request.getStartDate() == null) {
+            query.add(CustomerOrderSpecification.hasEndDate(request.getEndDate()));
+        }
+        if (request.getStartDate() != null && request.getEndDate() != null) {
+            query.add(CustomerOrderSpecification.hasStartDateAndEndDate(request.getStartDate(), request.getEndDate()));
+        }
 
+        List<CustomerOrder> result = customerOrderRepository.findAll(Specification.allOf(query));
+
+        ZoneId ictZone = ZoneId.of("Asia/Bangkok");
+        Map<LocalDate, Double> profitSumByDate = result.stream()
+                .collect(Collectors.groupingBy(order -> {
+                    Instant createdAtInstant = order.getCreatedAt().toInstant();
+                    OffsetDateTime ictTimestamp = createdAtInstant.atZone(ictZone).toOffsetDateTime();
+                    return ictTimestamp.toLocalDate();
+                }, Collectors.summingDouble(CustomerOrder::getProfit)));
+
+        List<SummaryModel> summarizedData = profitSumByDate.entrySet().stream()
+                .map(entry -> {
+                    SummaryModel summaryModel = new SummaryModel();
+                    summaryModel.setDate(entry.getKey());
+                    summaryModel.setProfit(entry.getValue());
+                    return summaryModel;
+                })
+                .collect(Collectors.toList());
+
+        logger.info("request: {}", summarizedData);
         logger.info("result: {}", result);
 
-        return result;
+        return summarizedData;
     }
 
 

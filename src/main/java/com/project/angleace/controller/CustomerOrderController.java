@@ -26,15 +26,11 @@ public class CustomerOrderController {
     @GetMapping("/profit-summary")
     public ResponseEntity<Response<List<SummaryModel>>> getProfitSummary(
             @RequestParam(required = false) LocalDate startDate,
-            @RequestParam(required = false) LocalDate endDate,
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer perPage
+            @RequestParam(required = false) LocalDate endDate
     ) {
         GetSummaryProductRequest request = new GetSummaryProductRequest();
         request.setEndDate(endDate);
         request.setStartDate(startDate);
-        request.setPage(page);
-        request.setPerPage(perPage);
 
         List<SummaryModel> summary = customerOrderService.getProfitSummary(request);
 
