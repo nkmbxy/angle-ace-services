@@ -123,25 +123,24 @@ public class ProductService {
 
 
     public String editProductById(Integer id, EditProductRequest request) throws IOException {
+        logger.info("{}", request);
         Optional<Product> productRepo = productRepository.findById(id);
         if (productRepo.isPresent()) {
-
-            Bucket bucket = StorageClient.getInstance().bucket();
-            String fileName = request.getFile().getOriginalFilename() + "-" + UUID.randomUUID();
-            String contentType = request.getFile().getContentType();
-            InputStream inputStream = request.getFile().getInputStream();
-            bucket.create(fileName, inputStream, contentType);
-            String fileUrl = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", bucket.getName(), fileName);
-
             productRepo.get()
                     .setSellPrice(request.getSellPrice())
                     .setCost(request.getCost())
-                    .setDetail(request.getDetail())
-                    .setPathImage(fileUrl);
-
+                    .setDetail(request.getDetail());
+            if (request.getFile() != null) {
+                Bucket bucket = StorageClient.getInstance().bucket();
+                String fileName = request.getFile().getOriginalFilename() + "-" + UUID.randomUUID();
+                String contentType = request.getFile().getContentType();
+                InputStream inputStream = request.getFile().getInputStream();
+                bucket.create(fileName, inputStream, contentType);
+                String fileUrl = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", bucket.getName(), fileName);
+                productRepo.get().setPathImage(fileUrl);
+            }
             productRepository.save(productRepo.get());
         }
-
         if (productRepo.isEmpty()) {
             logger.info("cannot find product in database");
             throw new Exception();
