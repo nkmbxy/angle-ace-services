@@ -53,6 +53,14 @@ public class ProductService {
             query.add(ProductSpecification.hasBetweenStartPriceAndEndPrice(request.getStartPrice(), request.getEndPrice()));
         }
 
+        if (request.getStartPrice() != null && request.getEndPrice() == null) {
+            query.add(ProductSpecification.hasStartPrice(request.getStartPrice()));
+        }
+
+        if (request.getStartPrice() == null && request.getEndPrice() != null) {
+            query.add(ProductSpecification.hasEndPrice(request.getEndPrice()));
+        }
+
 
         logger.info("request: {}", request);
 
