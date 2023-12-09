@@ -30,4 +30,12 @@ public class ProductSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("sellPrice"), startPrice, endPrice);
     }
 
+    public static Specification<Product> hasStartPrice(Double startPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("sellPrice"), startPrice);
+    }
+
+    public static Specification<Product> hasEndPrice(Double endPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("sellPrice"), endPrice);
+    }
+
 }
