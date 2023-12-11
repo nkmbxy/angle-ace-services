@@ -4,7 +4,12 @@ import com.project.angleace.entity.Manufacturer;
 import com.project.angleace.entity.Product;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Order;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductSpecification {
     public static Specification<Product> hasNameLike(String name) {
@@ -36,6 +41,23 @@ public class ProductSpecification {
 
     public static Specification<Product> hasEndPrice(Double endPrice) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("sellPrice"), endPrice);
+    }
+
+    public static Specification<Product> hasOrderBy(Sort sort) {
+        return (root, query, criteriaBuilder) -> {
+            if (sort != null) {
+                List<Order> orders = new ArrayList<>();
+                sort.forEach(order -> {
+                    if (order.isAscending()) {
+                        orders.add(criteriaBuilder.asc(root.get(order.getProperty())));
+                    } else {
+                        orders.add(criteriaBuilder.desc(root.get(order.getProperty())));
+                    }
+                });
+                query.orderBy(orders);
+            }
+            return criteriaBuilder.and();
+        };
     }
 
 }
