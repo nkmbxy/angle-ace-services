@@ -37,7 +37,7 @@ public class CustomerOrderService {
 
         Optional<Product> productRepo = productRepository.findById(id);
         if (productRepo.isPresent()) {
-            switch (request.getSize()) {
+            switch (request.getSize().toLowerCase()) {
                 case "s": {
                     Integer newAmount = productRepo.get().getAmountS() - request.getAmount();
                     productRepo.get().setAmountS(newAmount);
