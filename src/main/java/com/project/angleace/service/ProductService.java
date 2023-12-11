@@ -161,5 +161,9 @@ public class ProductService {
         return "edit product success";
     }
 
+    public List<Product> getLatestProducts(int count) {
+        return productRepository.findTopNByOrderByRegistrationDateDesc(count);
+    }
+
 }
 
