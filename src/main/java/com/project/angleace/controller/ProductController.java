@@ -70,11 +70,6 @@ public class ProductController {
 
     }
 
-    @GetMapping("/latest-products")
-    public ResponseEntity<List<Product>> getLatestProducts() {
-        List<Product> latestProducts = productService.getLatestProducts(4); // ดึงสินค้า 4 ลำดับล่าสุด
-        return ResponseEntity.ok(latestProducts);
-    }
 }
 
 

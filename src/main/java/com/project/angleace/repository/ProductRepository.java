@@ -14,6 +14,4 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Integer>, PagingAndSortingRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
     Optional<Product> findByCode(String code);
 
-    List<Product> findTopNByOrderByRegistrationDateDesc(int count);
-
 }
