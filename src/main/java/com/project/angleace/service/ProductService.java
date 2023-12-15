@@ -78,7 +78,7 @@ public class ProductService {
 
     public String createProduct(CreateProductRequest request) throws IOException {
 
-        Optional<Manufacturer> manufacturerRepo = manufacturerRepository.findByName(request.getManufacturer());
+        Optional<Manufacturer> manufacturerRepo = manufacturerRepository.findFirstByName(request.getManufacturer());
         Optional<Product> productRepo = productRepository.findByCode(request.getCode());
 
         if (productRepo.isPresent()) {

@@ -8,5 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.Optional;
 
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Integer>, PagingAndSortingRepository<Manufacturer, Integer>, JpaSpecificationExecutor<Manufacturer> {
-    Optional<Manufacturer> findByName(String name);
+    Optional<Manufacturer> findFirstByName(String name);
 }
