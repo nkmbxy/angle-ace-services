@@ -1,9 +1,7 @@
 package com.project.angleace.controller;
 
 import com.project.angleace.entity.Product;
-import com.project.angleace.model.request.CreateProductRequest;
-import com.project.angleace.model.request.EditProductRequest;
-import com.project.angleace.model.request.GetProductRequest;
+import com.project.angleace.model.request.*;
 import com.project.angleace.model.response.Response;
 import com.project.angleace.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +66,14 @@ public class ProductController {
         String editedProduct = productService.editProductById(id, editProductRequest);
         return new Response<String>("200", editedProduct).response();
 
+    }
+
+    @PostMapping("/product-remove")
+    public ResponseEntity<Response<String>> removeProduct(
+            @RequestBody RemoveProductRequest removeProductRequest
+    ) {
+        String message = productService.removeProducts(removeProductRequest);
+        return new Response<String>("200", message).response();
     }
 
 }

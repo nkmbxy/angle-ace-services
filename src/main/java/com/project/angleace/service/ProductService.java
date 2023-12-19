@@ -8,6 +8,7 @@ import com.project.angleace.exception.Exception;
 import com.project.angleace.model.request.CreateProductRequest;
 import com.project.angleace.model.request.EditProductRequest;
 import com.project.angleace.model.request.GetProductRequest;
+import com.project.angleace.model.request.RemoveProductRequest;
 import com.project.angleace.repository.ManufacturerRepository;
 import com.project.angleace.repository.ProductRepository;
 import com.project.angleace.repository.specification.ProductSpecification;
@@ -161,6 +162,17 @@ public class ProductService {
         return "edit product success";
     }
 
+    public String removeProducts(RemoveProductRequest ids) {
+        try {
+            productRepository.deleteAllById(ids.getProductsID());
+            logger.info("request: {}", ids);
+            return "remove product success";
+        }
+        catch (Exception e) {
+            logger.info("exception error: {}", e.getMessage());
+            throw new Exception();
+        }
+    }
 
 }
 
